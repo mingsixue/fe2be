@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>前后端分离 Demo - Front and back separation - 屎前文明Team</title>
+    <meta name="author" content="vic.wang">
+    <meta name="keywords" content="fe,be,frontend,backend,前端,后端,前后端,分离,开发分离,前后端分离">
+    <meta name="description" content="前后端开发分离，前端通过AJAX，后端提供API接口，前后端同步开发。">
+    <link rel="stylesheet" href="http://mxbeui.mingsixue.com/css/mxbeui.css">
+    <style>
+        h1{
+            margin: 30px;
+            font-size: 30px;
+        }
+        .footer{
+            height: 80px; line-height: 80px;
+            margin-top: 50px;
+            background: #000;
+            background: rgba(0,0,0,.7);
+        }
+        .footer p{
+            color: #aaa;
+            text-align: center;
+        }
+        .footer p a{
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrap">
+        <h1>前后端分离开发 Demo</h1>
+        <div class="content">
+            <div class="card">
+                <div class="card-header">list
+                    <div class="card-btns">
+                        <a class="btn btn-primary btn-add">新增</a>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <div class="card-search">
+                        <div class="search-label">
+                            <strong>name:</strong>
+                            <input type="text" class="search-input" name="name">
+                        </div>
+                        <div class="search-label">
+                            <strong>email:</strong>
+                            <input type="text" class="search-input" name="email">
+                        </div>
+                        <a class="btn btn-primary btn-search">搜索</a>
+                        <a class="btn btn-default btn-reset">重置</a>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>title</th>
+                                <th>email</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lists">
+                        </tbody>
+                    </table>
+
+                    <div class="pagination-wrap">
+                        <ul class="pagination" id="listPagination">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Copyright &copy; <a href="http://mingsixue.com/" target="_blank">mingsixue.com</a></p>
+        </footer>
+    </div>
+
+    <div class="mask hide" id="detailPop">
+    </div>
+
+    <script id="listTmpl" type="text/x-dot-template">
+        {{? it.length}}
+            {{~it:value:index}}
+                <tr>
+                    <td>{{= value.id}}</td>
+                    <td>{{= value.name}}</td>
+                    <td>{{= value.title}}</td>
+                    <td>{{= value.email}}</td>
+                    <td>
+                        <a class="btn btn-success btn-edit" data-id="{{= value.id}}">修改</a>
+                        <a class="btn btn-danger btn-del" data-id="{{= value.id}}">删除</a>
+                        <a class="btn btn-warning btn-check" data-name="{{= value.name}}">验证</a>
+                    </td>
+                </tr>
+            {{~}}
+        {{??}}
+            <tr>
+                <td colspan="5" class="no-data">暂无数据</td>
+            </tr>
+        {{?}}
+    </script>
+
+    <script id="detailTmpl" type="text/x-dot-template">
+        <section class="mask-form">
+            <div class="alert-title">{{? it.type == 'add'}}新增{{??}}修改{{?}}<a class="alert-close"></a></div>
+            <div class="alert-content">
+                <form class="form">
+                    <input type="hidden" name="id" value="{{= it.id}}" />
+                    <div class="row">
+                        <div class="form-group form-inline-group">
+                            <label for="name"><i class="redtip">*</i>name：</label>
+                            <input type="text" class="form-control" name="name" placeholder="请输入name" maxlength="30" value="{{= it.name}}">
+                            <span class="tip">请填写name！</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group form-inline-group">
+                            <label for="title"><i class="redtip">*</i>title：</label>
+                            <input type="text" class="form-control" name="title" placeholder="请输入title" maxlength="30" value="{{= it.title}}">
+                            <span class="tip">请填写title！</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group form-inline-group">
+                            <label for="email">email：</label>
+                            <input type="text" class="form-control" name="email" placeholder="请输入email" maxlength="30" value="{{= it.email}}">
+                            <span class="tip">请填写email！</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="alert-btns">
+                <a class="btn btn-cancel">取消</a>
+                <a class="btn btn-confirm" data-type="{{= it.type}}">确定</a>
+            </div>
+        </section>
+    </script>
+
+    <script src="js/libs/jquery.1.9.1.min.js"></script>
+    <script src="js/libs/doT.min.js"></script>
+    <script src="js/libs/jqPaginator.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
